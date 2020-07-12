@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <div id="big_picture"></div>
+    <div id="gallery">
+        <img src="img/imgSmall/cpu.jpg" alt="" id="image_1">
+        <img src="img/imgSmall/gpu.jpg" alt="" id="image_2">
+        <img src="img/imgSmall/mother.jpg" alt="" id="image_3">
+    </div>
+    <script>
+        init = function() {
+            var images = document.getElementsByTagName("img");
+            for (var i=0; i < images.length; i++) {
+                images[i].onclick = changeBigPicture;
+            } 
+        }
+        
+        changeBigPicture = function(eventObj) {
+            var appDiv = document.getElementById("big_picture");
+            appDiv.innerHTML = "";
+            var eventElement = eventObj.target;
+            var imageNameParts = eventElement.id.split("_");
+            var src = "img/imgBig/" + imageNameParts[1] + ".jpg";
+            var imageDomElement = document.createElement("img");
+            imageDomElement.src = src;
+            imageDomElement.onerror = ifError;
+            appDiv.appendChild(imageDomElement);
+        }
+        
+        ifError = function() {
+            var appDiv = document.getElementById("big_picture");
+            appDiv.innerHTML = "";
+            var src = "img/imgBig/error.jpg";
+            var imageDomElement = document.createElement("img");
+            imageDomElement.src = src;
+            appDiv.appendChild(imageDomElement);
+            
+        }
+        
+        window.onload = init;  
+    </script>
+</body>
+</html>

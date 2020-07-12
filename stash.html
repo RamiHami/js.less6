@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+   <div class="main">
+      <div class="elem1">
+          <div class="cpu tovar float">
+           <div class="img">
+               <img src="img/imgSmall/cpu.jpg" alt="">
+           </div>
+           <div class="name cost1">
+               <p>cpu</p>
+           </div>
+           <div class="btn">
+               <button id="cpu_button">10000 рублей<br>купить</button>
+           </div>
+       </div>
+       <div class="gpu tovar float">
+           <div class="img">
+               <img src="img/imgSmall/gpu.jpg" alt=" ">
+           </div>
+           <div class="name cost1">
+               <p>gpu</p>
+           </div>
+           <div class="btn">
+               <button id="gpu_button">19000 рублей<br>купить</button>
+           </div>
+       </div>
+       <div class="mother tovar float">
+           <div class="img">
+               <img src="img/imgSmall/mother.jpg" alt="">
+           </div>
+           <div class="name">
+               <p>motherboard</p>
+           </div>
+           <div class="btn">
+               <button id="mother_button">5000 рублей<br>купить</button>
+           </div>
+       </div>
+      </div>
+      
+      
+   </div>
+   <script>  
+       init = function() {
+           let elems = document.getElementsByTagName("button");
+           for (let elem in elems) {
+               elems[elem].onclick = getInners;
+           }  
+       }
+       
+       getInners = function(event) {
+           let appDiv = document.createElement("div");
+           appDiv.classList.add("stash");
+           let tovar = event.path[2];
+           let name = tovar.className.split(" ")[0];
+           let cost = event.path[1].innerText.split(" ")[0];
+           let newDiv = document.createElement("div");
+           newDiv.id = "stash_" + name;
+           let image = document.createElement("img");
+           let src = "img/imgSmall/" + name + ".jpg";
+           image.src = src;
+           let eggs = document.createElement("span");
+           eggs.id = "stash_name";
+           eggs.style.margin = "0 auto";
+           eggs.style.width = "100px";
+           eggs.style.float = "right";
+           let spam = document.createElement("span");
+           spam.id = name + "_price";
+           spam.style.margin = "0 auto";
+           spam.style.width = "100px";
+           spam.style.float = "right";
+           let hr = document.createElement("hr");
+           let button = document.createElement("button");
+           button.innerHTML = "Удалить";
+           button.style.float = "right";
+           button.onclick = deleteOne;
+           
+           appDiv.className = name;
+           let check = document.getElementById("stash_"+name);
+           if (check) {
+               let getId = document.getElementById(name + "_price");
+               let innerPrice = Number(getId.innerHTML);
+               let newPrice = innerPrice + Number(cost);
+               getId.innerHTML = newPrice;
+           }
+           else {
+               appDiv.appendChild(newDiv);
+               newDiv.appendChild(hr);
+               newDiv.appendChild(image);
+               newDiv.appendChild(button);
+               newDiv.appendChild(spam);
+               newDiv.appendChild(eggs);
+               spam.innerHTML = cost;
+               eggs.innerHTML = name;
+               appDiv.style.float = "left";
+               appDiv.style.width = "100%";
+               document.body.appendChild(appDiv);
+            }
+       }
+       
+       deleteOne = function(event) {
+           let tovar = event.path[2];
+           let elem_name = tovar.className+"_price";
+           let find_it = document.getElementById(elem_name);
+           let toInt = Number(find_it.innerHTML);
+           let findPrice = document.getElementById(tovar.className+"_button");
+           let price = Number(findPrice.innerHTML.split(" ")[0]);
+           let delPrice = toInt - price;
+           if (delPrice < 0) {               
+               let delDiv = document.getElementById("stash_"+tovar.className);
+               delDiv.remove();
+           }
+           find_it.innerHTML = delPrice;
+       }
+       
+       window.onload = init;
+   </script>
+</body>
+</html>
