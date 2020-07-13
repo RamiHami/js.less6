@@ -111,7 +111,7 @@
            let findPrice = document.getElementById(tovar.className+"_button");
            let price = Number(findPrice.innerHTML.split(" ")[0]);
            let delPrice = toInt - price;
-           if (delPrice < 0) {               
+           if (delPrice <= 0) {               
                let delDiv = document.getElementById("stash_"+tovar.className);
                delDiv.remove();
            }
